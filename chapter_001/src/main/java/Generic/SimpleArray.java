@@ -52,4 +52,8 @@ public class SimpleArray<T> {
             throw new IndexOutOfBoundsException("Index: " + index + ", Max index is: " + (size - 1));
         }
     }
+
+    public int size() {
+        return size;
+    }
 }
