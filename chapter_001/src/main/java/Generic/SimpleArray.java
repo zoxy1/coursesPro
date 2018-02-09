@@ -1,7 +1,9 @@
 package Generic;
 
+import java.util.Arrays;
+
 public class SimpleArray<T> {
-    private Object[] array = new Object[32];
+    private Object[] array;
     private int index = 0;
     private int size = 0;
 
@@ -10,14 +12,12 @@ public class SimpleArray<T> {
         size = array.length;
     }
 
-    public SimpleArray() {
-    }
-
     public Boolean add(T model) {
-        if (index >= array.length) {
-            Object[] arrayNew = new Object[(array.length * 2)];
-            System.arraycopy(array, 0, arrayNew, 0, array.length);
-            array = arrayNew;
+        if (index >= array.length && array.length != 0) {
+            //Object[] arrayNew = new Object[(array.length * 2)];
+            array = Arrays.copyOf(array, array.length * 2);
+            //System.arraycopy(array, 0, arrayNew, 0, array.length);
+            //array = arrayNew;
         }
         array[index++] = model;
         size++;
