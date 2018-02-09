@@ -1,6 +1,7 @@
 package iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class MatrixIterator<T> implements Iterator<T> {
     private T[][] arrays;
@@ -18,8 +19,10 @@ public class MatrixIterator<T> implements Iterator<T> {
 
     @Override
     public T next() {
+        if (row >= arrays.length || col >= arrays[row].length) {
+            throw new NoSuchElementException();
+        }
         T currentValue = arrays[row][col];
-
         col++;
         if (col >= arrays[row].length) {
             row++;
