@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class SimpleArrayTest {
     @Test
     public void add() throws Exception {
-        SimpleArray<Integer> simpleArray = new SimpleArray<>();
+        SimpleArray<Integer> simpleArray = new SimpleArray<>(new Object[]{null});
         simpleArray.add(5);
         simpleArray.add(6);
         assertThat(simpleArray.get(0), is(5));

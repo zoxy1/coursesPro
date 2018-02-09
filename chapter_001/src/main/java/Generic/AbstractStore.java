@@ -1,7 +1,9 @@
 package Generic;
 
+import java.util.Objects;
+
 public class AbstractStore<T extends Base> implements Store<T> {
-    private SimpleArray<T> items = new SimpleArray<>();
+    private SimpleArray<T> items = new SimpleArray<>(new Object[]{null});
 
     @Override
     public void add(T model) {
@@ -34,7 +36,7 @@ public class AbstractStore<T extends Base> implements Store<T> {
         Integer index = null;
 
         for (int i = 0; i < items.size(); i++) {
-            if (id.equals(items.get(i).getId())) {
+            if (Objects.equals(id, items.get(i).getId())) {
                 index = i;
                 break;
             }
@@ -46,7 +48,7 @@ public class AbstractStore<T extends Base> implements Store<T> {
     public T findById(String id) {
         T user = null;
         for (int i = 0; i < items.size(); i++) {
-            if (id.equals(items.get(i).getId())) {
+            if (Objects.equals(id, items.get(i).getId())) {
                 user = items.get(i);
                 break;
             }

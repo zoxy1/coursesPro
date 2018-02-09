@@ -14,12 +14,12 @@ public class MatrixIterator<T> implements Iterator<T> {
 
     @Override
     public boolean hasNext() {
-        return (arrays.length > row) && (arrays[row].length > col);
+        return (row < arrays.length) && (col < arrays[row].length);
     }
 
     @Override
     public T next() {
-        if (row >= arrays.length || col >= arrays[row].length) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
         T currentValue = arrays[row][col];
