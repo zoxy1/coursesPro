@@ -115,6 +115,14 @@ public class IteratorOfIteratorsTest {
         assertThat(it.next(), is(3));
         it.next();
     }
+
+    @Test
+    public void shouldReturnFalseInCaseOfEmptyIterator () {
+        Iterator<Iterator<Integer>> its = new ArrayList<Iterator<Integer>>().iterator();
+        Converter IteratorOfIterators = new Converter();
+        it = IteratorOfIterators.convert(its);
+        assertThat(it.hasNext(), is(false));
+    }
 }
 
 

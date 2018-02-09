@@ -10,7 +10,7 @@ public class Converter {
     public Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         return new Iterator<Integer>() {
             private void saveIteratorIfFirstIterate() {
-                if (firstIterate) {
+                if (firstIterate && it.hasNext()) {
                     currentIterator = it.next();
                     firstIterate = false;
                 }
