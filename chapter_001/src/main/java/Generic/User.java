@@ -8,11 +8,6 @@ public class User extends Base {
         this.name = name;
     }
 
-    @Override
-    public String getId() {
-        return super.getId();
-    }
-
     public String getName() {
         return name;
     }

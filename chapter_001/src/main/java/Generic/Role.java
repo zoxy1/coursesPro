@@ -8,11 +8,6 @@ public class Role extends Base {
         this.typeRole = typeRole;
     }
 
-    @Override
-    public String getId() {
-        return super.getId();
-    }
-
     public String getTypeRole() {
         return typeRole;
     }

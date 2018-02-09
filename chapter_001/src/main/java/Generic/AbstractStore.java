@@ -10,12 +10,36 @@ public class AbstractStore<T extends Base> implements Store<T> {
 
     @Override
     public boolean replace(String id, T model) {
-        return action(id, TypeAction.REPLACE, model);
+        Boolean isDone = false;
+        Integer index = findIndex(id);
+        if (index != null) {
+            items.set(index, model);
+            isDone = true;
+        }
+        return isDone;
     }
 
     @Override
     public boolean delete(String id) {
-        return action(id, TypeAction.DELETE, null);
+        Boolean isDone = false;
+        Integer index = findIndex(id);
+        if (index != null) {
+            items.delete(index);
+            isDone = true;
+        }
+        return isDone;
+    }
+
+    private Integer findIndex(String id) {
+        Integer index = null;
+
+        for (int i = 0; i < items.size(); i++) {
+            if (id.equals(items.get(i).getId())) {
+                index = i;
+                break;
+            }
+        }
+        return index;
     }
 
     @Override
@@ -28,22 +52,5 @@ public class AbstractStore<T extends Base> implements Store<T> {
             }
         }
         return user;
-    }
-
-    private Boolean action(String id, TypeAction typeAction, T model) {
-        Boolean isDone = false;
-        for (int i = 0; i < items.size(); i++) {
-            if (id.equals(items.get(i).getId())) {
-                if (typeAction == TypeAction.DELETE) {
-                    items.delete(i);
-                }
-                if (typeAction == TypeAction.REPLACE) {
-                    items.set(i, model);
-                }
-                isDone = true;
-                break;
-            }
-        }
-        return isDone;
     }
 }
