@@ -11,11 +11,22 @@ import static org.junit.Assert.*;
 public class SimpleArrayTest {
     @Test
     public void add() throws Exception {
-        SimpleArray<Integer> simpleArray = new SimpleArray<>(new Object[]{null});
+        SimpleArray<Integer> simpleArray = new SimpleArray<>();
         simpleArray.add(5);
         simpleArray.add(6);
         assertThat(simpleArray.get(0), is(5));
         assertThat(simpleArray.get(1), is(6));
+    }
+
+    @Test
+    public void addArrayToConstructor() throws Exception {
+        SimpleArray<Integer> simpleArray = new SimpleArray<>(new Integer[]{1, 2});
+        simpleArray.add(3);
+        simpleArray.add(4);
+        assertThat(simpleArray.get(0), is(1));
+        assertThat(simpleArray.get(1), is(2));
+        assertThat(simpleArray.get(2), is(3));
+        assertThat(simpleArray.get(3), is(4));
     }
 
     @Test

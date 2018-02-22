@@ -1,7 +1,7 @@
 package Generic;
 
 public class AbstractStore<T extends Base> implements Store<T> {
-    private SimpleArray<T> items = new SimpleArray<>(new Object[]{null});
+    private SimpleArray<T> items = new SimpleArray<>();
 
     @Override
     public void add(T model) {
