@@ -32,6 +32,7 @@ public class DynamicListTest {
         assertThat(iterator.next(), is(1));
         assertThat(iterator.hasNext(), is(true));
         assertThat(iterator.next(), is(2));
+        assertThat(iterator.hasNext(), is(false));
     }
 
     @Test (expected = ConcurrentModificationException.class)

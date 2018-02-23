@@ -49,7 +49,7 @@ public class DynamicList<T> implements SimpleContainer<T> {
             public boolean hasNext() {
                 checkModification();
                 Boolean isFound = false;
-                if (container.length > index) {
+                if (size > index) {
                     isFound = true;
                 }
                 return isFound;
@@ -58,13 +58,10 @@ public class DynamicList<T> implements SimpleContainer<T> {
             @Override
             public T next() {
                 checkModification();
-                T value;
-                if (hasNext() == false) {
+                if (!hasNext()) {
                     throw new NoSuchElementException();
-                } else {
-                    value = (T) container[index++];
                 }
-                return value;
+                return (T) container[index++];
             }
 
             private void checkModification() {
