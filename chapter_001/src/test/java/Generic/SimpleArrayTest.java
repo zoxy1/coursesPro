@@ -19,6 +19,17 @@ public class SimpleArrayTest {
     }
 
     @Test
+    public void addArrayToConstructor() throws Exception {
+        SimpleArray<Integer> simpleArray = new SimpleArray<>(new Integer[]{1, 2});
+        simpleArray.add(3);
+        simpleArray.add(4);
+        assertThat(simpleArray.get(0), is(1));
+        assertThat(simpleArray.get(1), is(2));
+        assertThat(simpleArray.get(2), is(3));
+        assertThat(simpleArray.get(3), is(4));
+    }
+
+    @Test
     public void set() throws Exception {
         SimpleArray<Integer> simpleArray = new SimpleArray<>(new Integer[]{1, 2, 3, 4});
         simpleArray.set(0, 10);
