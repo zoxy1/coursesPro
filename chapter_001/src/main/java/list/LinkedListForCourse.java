@@ -2,6 +2,7 @@ package list;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 public class LinkedListForCourse<T> implements SimpleContainer<T> {
@@ -84,5 +85,41 @@ public class LinkedListForCourse<T> implements SimpleContainer<T> {
             this.next = next;
             this.prev = prev;
         }
+    }
+
+    public T removeLast() {
+        if (last == null) {
+            throw new NoSuchElementException();
+        }
+        final T element = last.item;
+        final Node<T> prev = last.prev;
+        last.item = null;
+        last.prev = null;
+        last = prev;
+        if (prev == null)
+            first = null;
+        else
+            prev.next = null;
+        size--;
+        modCount++;
+        return element;
+    }
+
+    public T removeFirst() {
+        if (first == null) {
+            throw new NoSuchElementException();
+        }
+        final T element = first.item;
+        final Node<T> next = first.next;
+        first.item = null;
+        first.next = null;
+        first = next;
+        if (next == null)
+            last = null;
+        else
+            next.prev = null;
+        size--;
+        modCount++;
+        return element;
     }
 }
