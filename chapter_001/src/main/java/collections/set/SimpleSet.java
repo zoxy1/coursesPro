@@ -5,20 +5,28 @@ import collections.list.SimpleContainer;
 
 import java.util.Iterator;
 
-public class SimpleSet<T> {
+public class SimpleSet<T> implements Iterable<T> {
     private SimpleContainer<T> simpleContainer = new DynamicList<>();
 
     public Boolean add(T model) {
-        for (T item : simpleContainer) {
-            if (model.equals(item)) {
-                return false;
-            }
+        if (contains(model)) {
+            return false;
         }
         simpleContainer.add(model);
         return true;
     }
 
+    @Override
     public Iterator iterator() {
         return simpleContainer.iterator();
+    }
+
+    private Boolean contains(T model) {
+        for (T item : simpleContainer) {
+            if (model.equals(item)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

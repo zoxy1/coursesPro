@@ -1,21 +1,30 @@
 package collections.set;
 
 import collections.list.LinkedListForCourse;
+
 import java.util.Iterator;
 
-public class SimpleLinkSet<T> {
+public class SimpleLinkSet<T> implements Iterable<T> {
     private LinkedListForCourse<T> linkedList = new LinkedListForCourse<>();
 
     public void add(T e) {
-        for (T item : linkedList) {
-            if (e.equals(item)) {
-                return;
-            }
+        if (contains(e)) {
+            return;
         }
         linkedList.add(e);
     }
 
+    @Override
     public Iterator iterator() {
         return linkedList.iterator();
+    }
+
+    private Boolean contains(T model) {
+        for (T item : linkedList) {
+            if (model.equals(item)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

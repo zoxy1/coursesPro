@@ -13,6 +13,7 @@ public class SimpleHashSetTest {
         for (Integer i = 0; i < 13; i++) {
             assertThat(simpleHashSet.add("String" + i.toString()), is(true));
         }
+        assertTrue(true);
     }
 
     @Test

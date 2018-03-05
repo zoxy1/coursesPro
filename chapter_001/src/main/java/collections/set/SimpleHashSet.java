@@ -9,18 +9,10 @@ public class SimpleHashSet<T> {
     public boolean add(T e) {
         int hashCode = 0;
         if (e != null) {
-
             hashCode = e.hashCode();
         }
         if (++size > (int) (capacity * LOAD_FACTOR)) {
-            Object[] basketNew = new Object[basket.length * 2];
-            capacity = capacity * 2;
-            for (int i = 0; i < size; i++) {
-                if (basket[i] != null) {
-                    basketNew[hashCodeToIndex(basket[i].hashCode())] = basket[i];
-                }
-            }
-            basket = basketNew;
+            resize();
         }
         basket[hashCodeToIndex(hashCode)] = e;
         return true;
@@ -42,6 +34,17 @@ public class SimpleHashSet<T> {
     }
 
     private int hashCodeToIndex(int hashCode) {
-        return hashCode == 0 ? 0 : (hashCode & (capacity - 1)) % capacity;
+        return hashCode == 0 ? 0 : (hashCode ^ (hashCode >>> 16)) & (capacity - 1);
+    }
+
+    private void resize() {
+        Object[] basketNew = new Object[basket.length * 2];
+        capacity = capacity * 2;
+        for (int i = 0; i < basket.length; i++) {
+            if (basket[i] != null) {
+                basketNew[hashCodeToIndex(basket[i].hashCode())] = basket[i];
+            }
+        }
+        basket = basketNew;
     }
 }
