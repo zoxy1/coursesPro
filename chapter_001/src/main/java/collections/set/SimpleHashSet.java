@@ -19,10 +19,7 @@ public class SimpleHashSet<T> {
     }
 
     public boolean contains(T e) {
-        if (basket[hashCodeToIndex(e.hashCode())] != null) {
-            return true;
-        }
-        return false;
+        return basket[hashCodeToIndex(e.hashCode())] != null;
     }
 
     public boolean remove(T e) {

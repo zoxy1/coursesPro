@@ -7,8 +7,7 @@ import java.util.*;
  */
 public class SimpleHasMap<K, V> implements Iterable<V> {
     private int capacity = 16;
-    private Object[] keys = new Object[capacity];
-    private Object[] values = new Object[capacity];
+    private Entry[] entries = new Entry[capacity];
     private final float LOAD_FACTOR = 0.75f;
     private int size = 0;
     private Boolean keyHasNull = false;
@@ -17,8 +16,7 @@ public class SimpleHasMap<K, V> implements Iterable<V> {
     public boolean insert(K key, V value) {
         if (key == null) {
             resizeCheck();
-            keys[0] = key;
-            values[0] = value;
+            entries[0] = new Entry(key, value);
             size++;
             modCount++;
             keyHasNull = true;
@@ -28,8 +26,7 @@ public class SimpleHasMap<K, V> implements Iterable<V> {
             return false;
         }
         resizeCheck();
-        keys[getIndex(key)] = key;
-        values[getIndex(key)] = value;
+        entries[getIndex(key)] = new Entry(key, value);
         size++;
         modCount++;
         return true;
@@ -42,7 +39,8 @@ public class SimpleHasMap<K, V> implements Iterable<V> {
             }
             return false;
         }
-        if (Objects.equals(keys[getIndex(key)], key)) {
+        K keyCompare = entries[getIndex(key)] == null ? null : (K) entries[getIndex(key)].getKey();
+        if (Objects.equals(keyCompare, key)) {
             return true;
         }
         return false;
@@ -50,26 +48,24 @@ public class SimpleHasMap<K, V> implements Iterable<V> {
 
     public V get(K key) {
         if (key == null) {
-            return (V) values[0];
+            return (V) entries[0].getValue();
         }
         if (containsKey(key)) {
-            return (V) values[getIndex(key)];
+            return (V) entries[getIndex(key)].getValue();
         }
         return null;
     }
 
     public boolean delete(K key) {
         if (key == null) {
-            keys[0] = null;
-            values[0] = null;
+            entries[0] = null;
             keyHasNull = false;
             modCount++;
             return true;
         }
         if (containsKey(key)) {
             int index = getIndex(key);
-            keys[index] = null;
-            values[index] = null;
+            entries[index] = null;
             modCount++;
             return true;
         }
@@ -78,21 +74,20 @@ public class SimpleHasMap<K, V> implements Iterable<V> {
 
     private void resizeCheck() {
         if (size > (int) (capacity * LOAD_FACTOR)) {
-            Object[] keysNew = new Object[keys.length * 2];
-            Object[] valuesNew = new Object[values.length * 2];
+            Entry[] entriesNew = new Entry[entries.length * 2];
             capacity = capacity * 2;
-            for (int i = 0; i < keys.length; i++) {
-                if (keys[i] == null) {
-                    keysNew[0] = keys[i];
-                    valuesNew[0] = values[i];
+            for (int i = 0; i < entries.length; i++) {
+                if (entries[i] == null) {
+                    continue;
+                }
+                if (entries[i].getKey() == null) {
+                    entriesNew[0] = entries[i];
                 } else {
-                    int index = hashCodeToIndex(keys[i].hashCode());
-                    keysNew[index] = keys[i];
-                    valuesNew[index] = values[i];
+                    int index = hashCodeToIndex(entries[i].getKey().hashCode());
+                    entriesNew[index] = entries[i];
                 }
             }
-            keys = keysNew;
-            values = valuesNew;
+            entries = entriesNew;
         }
     }
 
@@ -117,8 +112,8 @@ public class SimpleHasMap<K, V> implements Iterable<V> {
                 if (index == 0 && keyHasNull) {
                     isFound = true;
                 } else {
-                    for (int i = index; i < values.length; i++) {
-                        if (values[i] != null) {
+                    for (int i = index; i < entries.length; i++) {
+                        if (entries[i] != null && entries[i].getValue() != null) {
                             isFound = true;
                         }
                     }
@@ -132,14 +127,13 @@ public class SimpleHasMap<K, V> implements Iterable<V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-
                 if (index == 0) {
-                    return (V) values[index++];
+                    return (V) entries[index++].getValue();
                 }
-                for (int i = index; i < values.length; i++) {
-                    if (values[i] != null) {
+                for (int i = index; i < entries.length; i++) {
+                    if (entries[i] != null && entries[i].getValue() != null) {
                         index = i + 1;
-                        return (V) values[i];
+                        return (V) entries[i].getValue();
                     }
                 }
                 return null;
